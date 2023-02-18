@@ -13,6 +13,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 def connect_web(url_adress):
+    """
+
+    :param url_adress:
+    :return:
+    """
     driver = webdriver.Chrome('chromedriver.exe')
     driver.get(url_adress)
     time.sleep(5)
@@ -71,15 +76,14 @@ def work_selenium(np_search_adress, url_adress):
         search_input(driver, delay, adress)
         coord = get_coordinates(driver, delay)
         adress_coord[adress] = coord
-        print(adress, coord)
         with open('..\\data\\adress_coord.json', 'w', encoding='utf-8-sig') as json_f:
            json.dump(adress_coord, json_f)
 
-    return new_df
 
 
 if __name__ == '__main__':
     url_adress = 'https://yandex.ru/maps'
     df_start_address = pd.read_json('..\\data\\ready_addresses.json')
-    np_search_adress = df_start_address['formating_adress']
-    new_df = work_selenium(np_search_adress, url_adress)
+    new_df = work_selenium(df_start_address['formating_adress'], url_adress)
+
+#305000, Курская область, г Курск, ул Гагарина, д. 22, кор. б, кв. 10
