@@ -110,6 +110,6 @@ def work_selenium(np_search_adress, url_adress):
 if __name__ == '__main__':
     url_adress = 'https://yandex.ru/maps' # Сайт "Яндекс карты"
     df_start_address = pd.read_json('..\\data\\ready_addresses.json') # Полученные адреса (после работы тетрадки)
-    work_selenium(df_start_address['formating_adress'], url_adress)  # Запуск основной функции
+    work_selenium(df_start_address['formating_adress'][0:499], url_adress)  # Запуск основной функции
 
 # 305000, Курская область, г Курск, ул Гагарина, д. 22, кор. б, кв. 10
