@@ -45,7 +45,6 @@ def search_input(driver, delay, adress):
     except Exception:
         print(f'{adress} - не отработал')
 
-
 def get_coordinates(driver, delay):
     """
     Функция для получения координат адреса
