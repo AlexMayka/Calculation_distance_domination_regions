@@ -2,8 +2,6 @@
 Поиск координат адросов в Яндекс.Картах
 """
 
-# Импорт библиотек
-# Importing libraries
 import time
 import pandas as pd
 import json
@@ -22,8 +20,7 @@ def connect_web(url_adress):
     :param url_adress: url-адрес сайта
     :return: driver: элемент класса webdriver
     """
-
-    driver = webdriver.Chrome('chromedriver.exe')
+    driver = webdriver.Chrome()
     driver.get(url_adress)
     time.sleep(5)
     return driver
@@ -125,6 +122,5 @@ def work_selenium(np_search_adress, url_adress):
 
 if __name__ == '__main__':
     url_adress = 'https://yandex.ru/maps'  # Сайт "Яндекс карты"
-    df_start_address = pd.read_json('..\\data\\ready_addresses.json')  # Полученные адреса (после работы тетрадки)
+    df_start_address = read_json('..\\data\\ready_addresses.json')  # Полученные адреса (после работы тетрадки)
     work_selenium(df_start_address['formating_adress'][0:499], url_adress)  # Запуск основной функции
-
