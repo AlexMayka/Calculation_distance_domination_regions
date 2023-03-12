@@ -46,8 +46,27 @@ def search_input(driver, delay, adress):
         elem_search_string.send_keys(adress)
         # Запускаем поиск
         elem_search_string.send_keys(Keys.ENTER)
-    except Exception:
-        print(f'{adress} - не отработал')
+    except Exception as ERROR_search_input:
+        print(f'{adress} - не отработал. Ошибка: {ERROR_search_input}')
+
+
+def clear_input_form(driver, delay):
+    """
+    Очистка формы ввода на сайте
+    :param driver: элемент класса webdriver
+    :param delay: время ожидания
+    """
+    try:
+        elem_clear = WebDriverWait(driver, 2) \
+            .until(EC.presence_of_element_located(
+            (By.XPATH, "//a[@class='small-search-form-view__pin']")))
+
+    except Exception as ex:
+        elem_clear = WebDriverWait(driver, 2) \
+            .until(EC.presence_of_element_located(
+            (By.XPATH, "//div[@class='small-search-form-view__icon _type_close']")))
+
+    elem_clear.click()
 
 
 def get_coordinates(driver, delay):
@@ -63,6 +82,7 @@ def get_coordinates(driver, delay):
         elem_search_2 = WebDriverWait(driver, delay) \
             .until(EC.presence_of_element_located(
             (By.XPATH, "//div[@class='toponym-card-title-view__coords-badge']")))
+
         # Запись в переменную координат адреса
         coord = elem_search_2.text
     except:
@@ -71,23 +91,15 @@ def get_coordinates(driver, delay):
             elem_first_list = WebDriverWait(driver, delay) \
                 .until(EC.presence_of_element_located(
                 (By.XPATH, "//div[@class='search-snippet-view__body _type_toponym']")))
+
             elem_first_list.click()
             # Запускаем повторно функцию
             get_coordinates(driver, delay)
+
         except:
             print('Увы и ах')
 
-    # Очищаем форму для записи
-    try:
-        elem_clear = WebDriverWait(driver, 2) \
-            .until(EC.presence_of_element_located(
-            (By.XPATH, "//a[@class='small-search-form-view__pin']")))
-    except:
-        elem_clear = WebDriverWait(driver, 2) \
-            .until(EC.presence_of_element_located(
-            (By.XPATH, "//div[@class='small-search-form-view__icon _type_close']")))
-
-    elem_clear.click()
+    clear_input_form(driver, delay)
     return coord
 
 
@@ -116,4 +128,3 @@ if __name__ == '__main__':
     df_start_address = pd.read_json('..\\data\\ready_addresses.json')  # Полученные адреса (после работы тетрадки)
     work_selenium(df_start_address['formating_adress'][0:499], url_adress)  # Запуск основной функции
 
-# 305000, Курская область, г Курск, ул Гагарина, д. 22, кор. б, кв. 10
